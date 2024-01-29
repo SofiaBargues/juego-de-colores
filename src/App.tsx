@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import "./App.css";
-// function Timer(){
-// }
+
 type Color = {
   name: string;
   color: string;
@@ -10,22 +9,27 @@ type Color = {
 const COLORS: Color[] = [
   {
     name: "red",
-    color: "#f00",
+    color: "#FF6B6C",
     correct: false,
   },
   {
     name: "green",
-    color: "#0f0",
+    color: "#2EEC8A",
     correct: false,
   },
   {
     name: "blue",
-    color: "#00f",
+    color: "#4696FF",
     correct: false,
   },
   {
     name: "yellow",
-    color: "#ff0",
+    color: "#FFC145",
+    correct: false,
+  },
+  {
+    name: "purple",
+    color: "#5B5F97",
     correct: false,
   },
 ];
@@ -62,15 +66,19 @@ function App() {
     if (clickedColor.correct) {
       setScore((score) => score + 1);
 
-      const [correctColor, wrongColor] = COLORS.slice().sort(
-        () => Math.random() - 0.5
-      );
-
-      setGameColors(
-        [{ ...correctColor, correct: true }, wrongColor].sort(
+      if (score === 9) {
+        setStatus("finished");
+      } else {
+        const [correctColor, wrongColor] = COLORS.slice().sort(
           () => Math.random() - 0.5
-        )
-      );
+        );
+
+        setGameColors(
+          [{ ...correctColor, correct: true }, wrongColor].sort(
+            () => Math.random() - 0.5
+          )
+        );
+      }
     }
   }
 
@@ -91,8 +99,8 @@ function App() {
   return (
     <main>
       <header>
-        <h1>{score} Score</h1>
-        <h1>{time} Seconds</h1>
+        <h4>{score} Score</h4>
+        <h4>{time} Seconds</h4>
       </header>
       {status === "playing" && (
         <section>
@@ -104,21 +112,33 @@ function App() {
         </section>
       )}
       <footer>
-        {status === "initial" && <button onClick={handlePlay}>Play</button>}
+        {status === "initial" && (
+          <button className="btn btn-secondary" onClick={handlePlay}>
+            Play
+          </button>
+        )}
         {status === "finished" && (
-          <button onClick={() => setStatus("initial")}>Play again</button>
+          <button
+            className="btn btn-secondary"
+            onClick={() => setStatus("initial")}
+          >
+            Play again
+          </button>
         )}
         {status === "playing" && (
-          <>
+          <div>
             <button
+              className="btn"
               onClick={() => handleColorClick(gameColors[0])}
               style={{
+                margin: 50,
                 width: 128,
                 height: 128,
                 backgroundColor: gameColors[0].color,
               }}
             ></button>
             <button
+              className="btn"
               onClick={() => handleColorClick(gameColors[1])}
               style={{
                 width: 128,
@@ -126,7 +146,7 @@ function App() {
                 backgroundColor: gameColors[1].color,
               }}
             ></button>
-          </>
+          </div>
         )}
       </footer>
     </main>
