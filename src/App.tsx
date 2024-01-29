@@ -46,6 +46,7 @@ function App() {
     () => gameColors.find((color) => color.correct)!,
     [gameColors]
   );
+
   function handlePlay() {
     setStatus("playing");
     setTime(0);
@@ -97,15 +98,16 @@ function App() {
   }, [status]);
 
   return (
-    <main>
-      <header>
+    <main className=" items-center flex-col  bg-[#111a3b] flex ">
+      <header className="flex justify-between mt-0 text-4xl py-2 w-full gap-8">
         <h4>{score} Score</h4>
         <h4>{time} Seconds</h4>
       </header>
       {status === "playing" && (
-        <section>
+        <section className=" p-50">
           <span
-            style={{ textTransform: "capitalize", color: gameColors[0].color }}
+            className="text-7xl font-semibold capitalize"
+            style={{ color: gameColors[0].color }}
           >
             {correctColor.name}
           </span>
@@ -113,32 +115,31 @@ function App() {
       )}
       <footer>
         {status === "initial" && (
-          <button className="btn btn-secondary" onClick={handlePlay}>
+          <button className="btn bg-[#fff248] m-14 " onClick={handlePlay}>
             Play
           </button>
         )}
         {status === "finished" && (
           <button
-            className="btn btn-secondary"
+            className="btn bg-[#fff248] m-14 "
             onClick={() => setStatus("initial")}
           >
-            Play again
+            <h1>Play again</h1>
           </button>
         )}
         {status === "playing" && (
-          <div>
+          <div className="m-4 p-5">
             <button
-              className="btn"
+              className="btn m-7  p-40"
               onClick={() => handleColorClick(gameColors[0])}
               style={{
-                margin: 50,
                 width: 128,
                 height: 128,
                 backgroundColor: gameColors[0].color,
               }}
             ></button>
             <button
-              className="btn"
+              className="btn m-7 p-40"
               onClick={() => handleColorClick(gameColors[1])}
               style={{
                 width: 128,
